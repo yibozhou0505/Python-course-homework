@@ -1,15 +1,11 @@
-class Animal:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+from buaa23571179_bank import Bank
 
-    def speak(self):
-        print(f"I am {self.name} and I am {self.age} years old.")
+bank = Bank()
 
-    @staticmethod
-    def eat():
-        print("I am eating.")
-
-cat = Animal("Kitty", 3)
-cat.speak()
-cat.eat()
+bank.create_user()
+u = bank.get_user(1001)
+print(u.create_mobile_account())      # 应该：错误：必须先创建基础账户
+u.create_base_account()
+print(u.deposit(50, "base"))          # 应该：开户需至少存入100元
+print(u.deposit(100, "base"))         # 应该两行
+print(bank.print_info())              # 应该三行
