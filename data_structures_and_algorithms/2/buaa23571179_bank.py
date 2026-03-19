@@ -32,7 +32,7 @@ class MessageConfig:
     repay_need_positive: str = "还款金额必须为正数"
 
     mobile_not_linked: str = "手机账户未关联基础账户"
-    mobile_not_linked_charge: str = "手机账户未关联"   # 新增：对齐满分代码的 MOBILE_CHARGE 文案
+    mobile_not_linked_charge: str = "手机账户未关联"   
     mobile_need_base_first: str = "错误：必须先创建基础账户"
     mobile_no_credit: str = "错误：手机账户不支持信用消费/借款"
 
@@ -105,7 +105,7 @@ class BaseAccount:
         if not is_positive_int(amount):
             return msg.fake_money
 
-        # 对齐满分代码：无论是否首次开户，只要超过阈值都提示
+        # 无论是否首次开户，只要超过阈值都提示
         if amount > base_cfg.large_deposit_threshold:
             lines.append(msg.large_deposit)
 
@@ -212,7 +212,7 @@ class User:
         self.base_account: Optional[BaseAccount] = None
         self.mobile_account: Optional[MobileAccount] = None
         self.credit_card: Optional[CreditCard] = None
-        self.is_closed_flag = False   # 新增：显式记录是否已销户
+        self.is_closed_flag = False   # 显式记录是否已销户
 
     # 创建基础账户
     def create_base_account(self):
@@ -370,7 +370,7 @@ class Bank:
         self.users = {}
         self.next_id = 1001
 
-        # 新增：对齐满分代码的 BANK_INFO 统计口径
+        # 对齐满分代码的 BANK_INFO 统计口径
         self.total_users = 0
         self.total_deposit = 0.0
         self.total_loan = 0.0
