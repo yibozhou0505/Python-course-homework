@@ -59,5 +59,8 @@ def u(a,b,c,n):
 
 # ========== Ex5 ==========
 # 5.1
-def cat(n):
-    
+# L = []
+# for i in range(1,10):
+#     L.append(i)
+
+# print(L)
