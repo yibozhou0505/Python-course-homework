@@ -2,7 +2,7 @@
 # ...
 
 # ======ex2=========
-# 2.1
+# 2.1 二分法
 def dicho(a, b, A, n):
     for _ in range(n):
         mid = (a + b) / 2
@@ -30,8 +30,7 @@ def return_limite(n, A, eps=1e-10):
         return un
 return_limite(100, 10)
 
-# 2.3
-# ...
+# 2.3 New
 
 # 2.4
 def newton(A, n):

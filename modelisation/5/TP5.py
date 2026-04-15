@@ -64,7 +64,7 @@ def evaluations(P, a):
 def Horner(P, a, res=0):
     if P == []:
         return res
-    res += P[-1] * a ** len(P)
+    res += P[-1] * a ** (len(P) - 1)
     P.pop()
     return Horner(P, a, res)
 
