@@ -36,7 +36,7 @@ def Euler(F,X0,T,N):
     n=np.size(X0)
     S=np.zeros((n,N+1))
     S[:,0]=X0
-    Xn=X0
+    Xn=X0.copy()
     for i in range(N):
         Xn+=h*F(Xn)
         S[:,i+1]=Xn
@@ -46,29 +46,29 @@ T = 3
 N = 100
 X0 = np.array([x0, y0], dtype=float)
 
-S = Euler(FVL,X0,T,N)
-
 # ------- ex3 -------
 
-t = np.linspace(0.0, T, N + 1)
+def plot_euler_example():
+    S = Euler(FVL, X0, T, N)
+    t = np.linspace(0.0, T, N + 1)
 
-# 1. x(t), y(t) 随时间变化
-plt.figure()
-plt.plot(t, S[0, :], label="x(t)")
-plt.plot(t, S[1, :], label="y(t)")
-plt.xlabel("t")
-plt.legend()
-plt.grid(True)
-plt.show()
+    # 1. x(t), y(t) 随时间变化
+    plt.figure()
+    plt.plot(t, S[0, :], label="x(t)")
+    plt.plot(t, S[1, :], label="y(t)")
+    plt.xlabel("t")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
-# 2. 相平面 (x, y)
-plt.figure()
-plt.plot(S[0, :], S[1, :])
-plt.xlabel("x")
-plt.ylabel("y")
-plt.grid(True)
-plt.axis("equal")
-plt.show()
+    # 2. 相平面 (x, y)
+    plt.figure()
+    plt.plot(S[0, :], S[1, :])
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.grid(True)
+    plt.axis("equal")
+    plt.show()
 
 
 # ------- ex4 -------
@@ -191,27 +191,28 @@ def H(X):
     y = X[1]
     return d_vl * x - c_vl * np.log(x) + b_vl * y - a_vl * np.log(y)
 
-methods = {
-    "Euler": Euler(FVL, X0, T, N),
-    "RK2": RK2(FVL, X0, T, N),
-    "AB2": AB2(FVL, X0, T, N),
-    "RK4": RK4(FVL, X0, T, N),
-    "IEuler": IEuler(FVL, DFVL, X0, T, N),
-    "CN": CN(FVL, DFVL, X0, T, N),
-}
+def plot_first_integral():
+    methods = {
+        "Euler": Euler(FVL, X0, T, N),
+        "RK2": RK2(FVL, X0, T, N),
+        "AB2": AB2(FVL, X0, T, N),
+        "RK4": RK4(FVL, X0, T, N),
+        "IEuler": IEuler(FVL, DFVL, X0, T, N),
+        "CN": CN(FVL, DFVL, X0, T, N),
+    }
 
-t = np.linspace(0.0, T, N + 1)
+    t = np.linspace(0.0, T, N + 1)
 
-plt.figure()
-for name, S in methods.items():
-    plt.plot(t, H(S), label=name)
+    plt.figure()
+    for name, S in methods.items():
+        plt.plot(t, H(S), label=name)
 
-plt.xlabel("t")
-plt.ylabel("H(x, y)")
-plt.title("Premiere integrale")
-plt.grid(True)
-plt.legend()
-plt.show()
+    plt.xlabel("t")
+    plt.ylabel("H(x, y)")
+    plt.title("Premiere integrale")
+    plt.grid(True)
+    plt.legend()
+    plt.show()
 
 
 # ======= Probleme 2 =======
