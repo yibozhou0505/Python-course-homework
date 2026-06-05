@@ -91,3 +91,158 @@ def partition(arr,low,high):
 
     arr[i+1],arr[high] = arr[high], arr[i+1]
     return i+1
+
+
+# 桶排序
+def bucket_sort(arr):
+    '''根据数据分布指定范围'''
+    min_val, max_val = min(arr), max(arr)
+    n = len(arr)
+
+    bucket_count = n
+    buckets = [[] for _ in range(bucket_count)]
+
+    for num in arr:
+        if max_val == min_val:
+            idx = 0
+        else:
+            idx = int((num - min_val) / (max_val - min_val) * (bucket_count - 1))
+        buckets[idx].append(num)
+
+    for bucket in buckets:
+        insertion_sort(bucket)
+
+    result = []
+    for bucket in buckets:
+        result.extend(bucket)
+
+    return result
+
+
+# 基数排序
+def radix_sort(arr):
+    max_val = max(arr)
+    exp = 1  
+
+    while max_val // exp > 0:
+        buckets = [[] for _ in range(10)]
+
+        for num in arr:
+            digit = (num // exp) % 10
+            buckets[digit].append(num)
+
+        arr = [num for bucket in buckets for num in bucket]
+
+        exp *= 10
+
+    return arr
+
+
+# 剪枝搜索
+# def partition(arr, left, right):
+#     """
+#     对 arr[left:right+1] 做划分。
+#     选择 arr[right] 作为 pivot。
+
+#     划分完成后：
+#     - pivot 左边的元素 <= pivot
+#     - pivot 右边的元素 > pivot
+#     - 返回 pivot 的最终下标
+#     """
+
+#     pivot = arr[right]
+
+#     # i 表示“小于等于 pivot 区域”的最后一个位置
+#     i = left - 1
+
+#     for j in range(left, right):
+#         if arr[j] <= pivot:
+#             i += 1
+#             arr[i], arr[j] = arr[j], arr[i]
+
+#     # 把 pivot 放到最终位置
+#     arr[i + 1], arr[right] = arr[right], arr[i + 1]
+
+#     return i + 1
+
+
+def pruning_search(arr, k):
+    """
+    剪枝搜索：找第 k 小元素。
+    k 从 1 开始，例如 k=1 表示最小值。
+
+    注意：这个函数会修改原数组。
+    """
+
+    if k < 1 or k > len(arr):
+        raise ValueError("k 必须在 1 到 len(arr) 之间")
+
+    left = 0
+    right = len(arr) - 1
+
+    while left <= right:
+        pivot_index = partition(arr, left, right)
+
+        # pivot 是当前整个数组中的第 rank 小
+        rank = pivot_index - left + 1
+
+        if k == rank:
+            return arr[pivot_index]
+
+        elif k < rank:
+            # 第 k 小在左边，只搜索左边
+            right = pivot_index - 1
+
+        else:
+            # 第 k 小在右边
+            # 右边要找的是第 k-rank 小
+            k -= rank
+            left = pivot_index + 1
+
+# 随机快速选择
+import random
+
+
+def randomized_partition(arr, left, right):
+    """
+    随机选择 pivot，然后做 partition。
+    """
+
+    # 在 [left, right] 之间随机选一个下标
+    pivot_index = random.randint(left, right)
+
+    # 把随机选中的 pivot 放到最后
+    arr[pivot_index], arr[right] = arr[right], arr[pivot_index]
+
+    # 调用普通 partition
+    return partition(arr, left, right)
+
+
+def randomized_quickselect(arr, k):
+    """
+    随机快速选择：找第 k 小元素。
+    k 从 1 开始。
+
+    注意：这个函数会修改原数组。
+    """
+
+    if k < 1 or k > len(arr):
+        raise ValueError("k 必须在 1 到 len(arr) 之间")
+
+    left = 0
+    right = len(arr) - 1
+
+    while left <= right:
+        pivot_index = randomized_partition(arr, left, right)
+
+        rank = pivot_index - left + 1
+
+        if k == rank:
+            return arr[pivot_index]
+
+        elif k < rank:
+            right = pivot_index - 1
+
+        else:
+            k -= rank
+            left = pivot_index + 1
