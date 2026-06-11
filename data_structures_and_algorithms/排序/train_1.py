@@ -246,3 +246,13 @@ def randomized_quickselect(arr, k):
         else:
             k -= rank
             left = pivot_index + 1
+
+
+text = "i am hungry",'help'
+print(text)
+it=iter(text)
+a=next(it)
+print (a)
+b=next(it)
+print (b)
+
